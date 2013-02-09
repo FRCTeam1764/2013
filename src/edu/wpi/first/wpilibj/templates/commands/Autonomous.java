@@ -30,7 +30,6 @@ public class Autonomous extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        m_chassis.drive.setSafetyEnabled(false);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -44,8 +43,9 @@ public class Autonomous extends CommandBase {
                 m_chassis.driveWithAuto(0.0, 0.5);
             }
             m_chassis.driveWithAuto(0, 0);
-            while(m_camera.x-160>20 || m_camera.x-160<-20 || m_camera.y-120>20 || m_camera.y-120<-20){
-                m_camera.track(true);
+            m_camera.track();
+            while(m_camera.x-320>40 || m_camera.x-320<-40 || m_camera.y-240>40 || m_camera.y-240<-40){
+                m_camera.track();
                 m_chassis.driveWithCamera();
                 m_chassis.anglometron();
             }
@@ -66,8 +66,8 @@ public class Autonomous extends CommandBase {
                 m_chassis.driveWithAuto(0.0, -0.5);
             }
             m_chassis.driveWithAuto(0, 0);
-            while(m_camera.x-160>20 || m_camera.x-160<-20 || m_camera.y-120>20 || m_camera.y-120<-20){
-                m_camera.track(true);
+            while(m_camera.x-320>40 || m_camera.x-320<-40 || m_camera.y-240>40 || m_camera.y-240<-40){
+                m_camera.track();
                 m_chassis.driveWithCamera();
                 m_chassis.anglometron();
             }
@@ -80,8 +80,8 @@ public class Autonomous extends CommandBase {
             }
             done = true;
         }else if(OI.getInstance().getPlan() == 3) {
-            while(m_camera.x-160>20 || m_camera.x-160<-20 || m_camera.y-120>20 || m_camera.y-120<-20){
-                m_camera.track(true);
+            while(m_camera.x-320>40 || m_camera.x-320<-40 || m_camera.y-240>40 || m_camera.y-240<-40){
+                m_camera.track();
                 m_chassis.driveWithCamera();
                 m_chassis.anglometron();
             }

@@ -40,7 +40,6 @@ public class MainLoop extends IterativeRobot {
     }
 
     public void autonomousInit() {
-        Chassis.getInstance().drive.setSafetyEnabled(false);
         System.out.println("Auto");
     }
     /**

@@ -4,7 +4,6 @@
  */
 package edu.wpi.first.wpilibj.templates.commands;
 
-import edu.wpi.first.wpilibj.templates.OI;
 import edu.wpi.first.wpilibj.templates.subsystems.Camera;
 
 /**
@@ -25,7 +24,7 @@ public class Track extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        m_camera.track(OI.getInstance().getJoystickButton21().get());
+        m_camera.track();
     }
 
     // Make this return true when this Command no longer needs to run execute()
