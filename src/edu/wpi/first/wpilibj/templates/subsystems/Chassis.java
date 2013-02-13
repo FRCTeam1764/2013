@@ -23,7 +23,7 @@ public class Chassis extends Subsystem {
     public static final int REAR_LEFT_MOTOR_PORT = 2;
     public static final int FRONT_RIGHT_MOTOR_PORT = 3;
     public static final int REAR_RIGHT_MOTOR_PORT = 4;
-    public static final int ANGLOMETRON_PORT = 5;
+    public static final int ANGLOMETRON_PORT = 8;
     private Victor fl;
     private Victor rl;
     private Victor fr;
@@ -46,6 +46,7 @@ public class Chassis extends Subsystem {
         fr = new Victor(FRONT_RIGHT_MOTOR_PORT);
         rr = new Victor(REAR_RIGHT_MOTOR_PORT);
         anglometron = new Victor(ANGLOMETRON_PORT);
+        System.out.println("CHASSIS");
     }
 
     public void driveWithJoystick() {
@@ -55,10 +56,16 @@ public class Chassis extends Subsystem {
             
             fl.set(y-x);
             rl.set(y-x);
-            fr.set(-(y*0.9)-x);
-            rr.set(-(y*0.9)-x);
+            fr.set(-y-x);
+            rr.set(-y-x);
             
-            anglometron.set(OI.getInstance().getJoystick2().getAxis(Joystick.AxisType.kY));
+            if(OI.getInstance().getJoystickButton211().get()) {
+                anglometron.set(-0.5);
+            }else if(OI.getInstance().getJoystickButton211().get()){
+                anglometron.set(0.5);
+            }else{
+                anglometron.set(0.0);
+            }
         } else {
             driveWithCamera();
         }
@@ -93,10 +100,14 @@ public class Chassis extends Subsystem {
     public void anglometron() {
         int y = Camera.getInstance().y - 240;
         
-        if (y > 0) {
-            anglometron.set(-0.1);
-        }else if (y < 0) {
-            anglometron.set(0.1);
+        if (y > 40) {
+            anglometron.set(-1.0);
+        }else if (y < -40) {
+            anglometron.set(1.0);
+        }else if (y < -20) {
+            anglometron.set(-0.5);
+        }else if (y < -20) {
+            anglometron.set(0.5);
         }else{
             anglometron.set(0.0);
         }
@@ -105,8 +116,8 @@ public class Chassis extends Subsystem {
     public void driveWithAuto(double mY, double mX) {
         fl.set(mY-mX);
         rl.set(mY-mX);
-        fr.set(-(mY*0.9)-mX);
-        rr.set(-(mY*0.9)-mX);
+        fr.set(-mY-mX);
+        rr.set(-mY-mX);
     }
 
     protected void initDefaultCommand() {

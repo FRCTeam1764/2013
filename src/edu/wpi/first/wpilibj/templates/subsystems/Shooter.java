@@ -54,20 +54,19 @@ public class Shooter extends Subsystem {
     
     public void buttons(boolean set) {
         light.set(true);
-        if (OI.getInstance().getJoystickButton22().get()) {
-            speed = 0.0;
-        }else if (set) {
-            speed = (0.0785*(OI.getInstance().getUltrasonic()*OI.getInstance().getUltrasonic())) + 1914.2;
+//        if (OI.getInstance().getJoystickButton22().get()) {
+//            speed = 0.0;
+//        }else if (set) {
             //y = 0.0785x^2 + 1914.2
-        }
+//        }
     }
     
     public void normalize() {
-        if(Math.abs(speed - OI.getInstance().getEncoder()) > 100){
-            power += ((speed - OI.getInstance().getEncoder())/(speed*50));
-        }else{
+//        if(Math.abs(speed - OI.getInstance().getEncoder()) > 100){
+//            power += ((speed - OI.getInstance().getEncoder())/(speed*50));
+//        }else{
             power = power;
-        }
+//        }
     }
     
     public void setShooterSpeed() {
@@ -78,15 +77,16 @@ public class Shooter extends Subsystem {
     
     public void shoot(boolean go) {
         if(go) {
-            want = 700;
-        }
-        
-        if(OI.getInstance().getPot() > want + 40) {
-            cam.set(Relay.Value.kReverse);
-        }else if(OI.getInstance().getPot() < want - 40) {
-            cam.set(Relay.Value.kForward);
-        }else{
-            cam.set(Relay.Value.kOff);
+            while(OI.getInstance().getLimit1() == false) {
+                cam.set(Relay.Value.kForward);
+            }
+            
+            while(OI.getInstance().getLimit2() == false) {
+                cam.set(Relay.Value.kReverse);
+            }
+            while(OI.getInstance().getLimit1() == false) {
+                cam.set(Relay.Value.kOff);
+            }
         }
     }
     

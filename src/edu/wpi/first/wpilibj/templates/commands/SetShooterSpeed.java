@@ -25,10 +25,10 @@ public class SetShooterSpeed extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        m_shooter.buttons(OI.getInstance().getJoystickButton23().get());
-        m_shooter.normalize();
-        m_shooter.setShooterSpeed();
-        m_shooter.shoot(OI.getInstance().getJoystickButton24().get());
+//        m_shooter.buttons(OI.getInstance().getJoystickButton23().get());
+//        m_shooter.normalize();
+//        m_shooter.setShooterSpeed();
+//        m_shooter.shoot(OI.getInstance().getJoystickButton24().get());
     }
 
     // Make this return true when this Command no longer needs to run execute()

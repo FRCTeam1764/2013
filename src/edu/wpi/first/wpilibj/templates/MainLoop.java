@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.templates.commands.CommandBase;
 import edu.wpi.first.wpilibj.templates.subsystems.Chassis;
 import edu.wpi.first.wpilibj.templates.subsystems.Shooter;
 import edu.wpi.first.wpilibj.templates.subsystems.Camera;
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -33,15 +32,12 @@ public class MainLoop extends IterativeRobot {
      */
     public void robotInit() {
         // instantiate the command used for the autonomous period
-        OI.getInstance();
+        CommandBase.init();
         Chassis.getInstance();
         Shooter.getInstance();
         Camera.getInstance();
     }
 
-    public void autonomousInit() {
-        System.out.println("Auto");
-    }
     /**
      * This function is called periodically during operator control
      */
