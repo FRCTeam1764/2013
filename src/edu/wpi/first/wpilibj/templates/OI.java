@@ -48,6 +48,8 @@ public class OI {
         j2b5 = new JoystickButton(stick2, 5);
         j2b11 = new JoystickButton(stick2, 11);
         j2b10 = new JoystickButton(stick2, 10);
+        
+        quad.start();
     }
     
     public static OI getInstance() {
@@ -63,7 +65,6 @@ public class OI {
     }
 
     public double getEncoder() {
-        quad.start();
         return quad.getRate();
     }
 
