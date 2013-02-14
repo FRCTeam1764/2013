@@ -61,7 +61,7 @@ public class Chassis extends Subsystem {
             
             if(OI.getInstance().getJoystickButton211().get()) {
                 anglometron.set(-0.5);
-            }else if(OI.getInstance().getJoystickButton211().get()){
+            }else if(OI.getInstance().getJoystickButton210().get()){
                 anglometron.set(0.5);
             }else{
                 anglometron.set(0.0);
