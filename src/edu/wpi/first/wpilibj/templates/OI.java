@@ -36,6 +36,7 @@ public class OI {
     private JoystickButton j2b10;
     
     public OI() {
+        //Test.
         System.out.println("OI");
       
         stick = new Joystick(JOYSTICK_PORT);
