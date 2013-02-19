@@ -11,6 +11,7 @@ package edu.wpi.first.wpilibj.templates;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.templates.commands.Autonomous;
 import edu.wpi.first.wpilibj.templates.commands.CommandBase;
 import edu.wpi.first.wpilibj.templates.subsystems.Camera;
 import edu.wpi.first.wpilibj.templates.subsystems.Chassis;
@@ -31,11 +32,29 @@ public class MainLoop extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+        autonomousCommand = new Autonomous();
         // instantiate the command used for the autonomous period
         CommandBase.init();
         Chassis.getInstance();
         Shooter.getInstance();
         Camera.getInstance();
+    }
+    
+    public void autonomousInit() {
+        // schedule the autonomous command (example)
+        autonomousCommand.start();
+    }
+    
+    public void autonomousPeriodic() {
+        Scheduler.getInstance().run();
+    }
+    
+    public void teleopInit() {
+	// This makes sure that the autonomous stops running when
+        // teleop starts running. If you want the autonomous to 
+        // continue until interrupted by another command, remove
+        // this line or comment it out.
+        autonomousCommand.cancel();
     }
 
     /**

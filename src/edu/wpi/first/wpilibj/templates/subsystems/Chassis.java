@@ -23,7 +23,7 @@ public class Chassis extends Subsystem {
     public static final int REAR_LEFT_MOTOR_PORT = 2;
     public static final int FRONT_RIGHT_MOTOR_PORT = 3;
     public static final int REAR_RIGHT_MOTOR_PORT = 4;
-    public static final int ANGLOMETRON_PORT = 8;
+    public static final int ANGLOMETRON_PORT = 10;
     private Victor fl;
     private Victor rl;
     private Victor fr;
@@ -46,7 +46,6 @@ public class Chassis extends Subsystem {
         fr = new Victor(FRONT_RIGHT_MOTOR_PORT);
         rr = new Victor(REAR_RIGHT_MOTOR_PORT);
         anglometron = new Victor(ANGLOMETRON_PORT);
-        System.out.println("CHASSIS");
     }
 
     public void driveWithJoystick() {
@@ -59,42 +58,61 @@ public class Chassis extends Subsystem {
             fr.set(-y-x);
             rr.set(-y-x);
             
-            if(OI.getInstance().getJoystickButton211().get()) {
-                anglometron.set(-0.5);
-            }else if(OI.getInstance().getJoystickButton210().get()){
-                anglometron.set(0.5);
+            if(OI.getInstance().getJoystickButton211().get() && OI.getInstance().getPot() < 550) {
+                anglometron.set(-1.0);
+            }else if(OI.getInstance().getJoystickButton210().get() && OI.getInstance().getPot() > 375){
+                anglometron.set(1.0);
             }else{
                 anglometron.set(0.0);
             }
+            System.out.println(OI.getInstance().getLeftQuad() + " + " + OI.getInstance().getRightQuad());
         } else {
             driveWithCamera();
         }
     }
 
     public void driveWithCamera() {
-        int x = Camera.getInstance().x - 320;
+        double x = Camera.getInstance().x;
         
-        if (x > 50) {
-            fl.set(0.5);
-            fr.set(-0.5);
-        }else if (x < 50) {
+        if (x > 200) {
+            System.out.println("Right");
+            fl.set(-0.6);
+            fr.set(-0.6);
+            rl.set(-0.6);
+            rr.set(-0.6);
+        }else if (x < -200) {
+            System.out.println("Left");
+            fl.set(0.6);
+            fr.set(0.6);
+            rl.set(0.6);
+            rr.set(0.6);
+        }else if (x > 100) {
             fl.set(-0.5);
+            fr.set(-0.5);
+            rl.set(-0.5);
+            rr.set(-0.5);
+        }else if (x < -100) {
+            fl.set(0.5);
             fr.set(0.5);
-        }else if (x > 30) {
-            fl.set(0.4);
-            fr.set(-0.4);
-        }else if (x < 30) {
-            fl.set(-0.4);
-            fr.set(0.4);
-        }else if (x > 20) {
-            fl.set(0.2);
-            fr.set(-0.2);
-        }else if (x < 20) {
-            fl.set(-0.2);
-            fr.set(0.2);
+            rl.set(0.5);
+            rr.set(0.);
+        }else if (x > 50) {
+            fl.set(-0.45);
+            fr.set(-0.45);
+            rl.set(-0.45);
+            rr.set(-0.45);
+        }else if (x < -50) {
+            fl.set(0.45);
+            fr.set(0.45);
+            rl.set(0.45);
+            rr.set(0.45);
+        }else if(x < 25 && x > -25) {
+            fl.set(0.0);
+            fr.set(0.0);
+            rl.set(0.0);
+            rr.set(0.0);
+            anglometron();
         }
-        
-        anglometron();        
     }
     
     public void anglometron() {

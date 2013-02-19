@@ -20,7 +20,7 @@ public class Shooter extends Subsystem {
     // here. Call these from Commands.
     
     public static final int SHOOTER_PORT = 5;
-    public static final int CAM_PORT = 6;
+    public static final int CAM_PORT = 1;
     public static final int LIGHT_PORT = 1;
     
     private Victor shooter;
@@ -30,7 +30,8 @@ public class Shooter extends Subsystem {
     public double speed;
     public double power;
     public double lastPower;
-    public double want = 200;
+    public boolean out = false;
+    public boolean in = true;
     
     private static Shooter instance = null;
     
@@ -54,39 +55,53 @@ public class Shooter extends Subsystem {
     
     public void buttons(boolean set) {
         light.set(true);
-//        if (OI.getInstance().getJoystickButton22().get()) {
-//            speed = 0.0;
-//        }else if (set) {
-            //y = 0.0785x^2 + 1914.2
-//        }
+        if (OI.getInstance().getJoystickButton22().get()) {
+            shooter.set(0.0);
+        }else if (OI.getInstance().getJoystickButton23().get()) {
+            shooter.set(-0.75);
+        }else if (OI.getInstance().j2b8.get()) {
+            shooter.set(-0.5);
+        }else if (OI.getInstance().j2b9.get()) {
+            shooter.set(-0.85);
+        }
     }
     
     public void normalize() {
-//        if(Math.abs(speed - OI.getInstance().getEncoder()) > 100){
-//            power += ((speed - OI.getInstance().getEncoder())/(speed*50));
+//        if(Math.abs(speed - OI.getInstance().getEncoder()) > 100 && speed != 0.0){
+//            power += ((speed - OI.getInstance().getEncoder())/(speed*500));
+//        }else if(speed == 0.0){
+//            power = 0;
+//            lastPower = 0;
 //        }else{
-            power = power;
+//            power = power;
 //        }
     }
     
     public void setShooterSpeed() {
-        power = (power + lastPower)/2;
-        shooter.set(power);
-        lastPower = power;
+//        power = (power + lastPower)/2;
+//        shooter.set(-power);
+//        lastPower = power;
     }
     
     public void shoot(boolean go) {
         if(go) {
-            while(OI.getInstance().getLimit1() == false) {
+            while((OI.getInstance().getLimit2() || OI.getInstance().getLimit1() == false) && go) {
+                if(go == false) {
+                    cam.set(Relay.Value.kOff);
+                    return;
+                }
                 cam.set(Relay.Value.kForward);
             }
             
-            while(OI.getInstance().getLimit2() == false) {
+            while((OI.getInstance().getLimit1() || OI.getInstance().getLimit2() == false) && go) {
+                if(go == false) {
+                    cam.set(Relay.Value.kOff);
+                    return;
+                }
                 cam.set(Relay.Value.kReverse);
             }
-            while(OI.getInstance().getLimit1() == false) {
-                cam.set(Relay.Value.kOff);
-            }
+        }else{
+            cam.set(Relay.Value.kOff);
         }
     }
     

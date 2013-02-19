@@ -35,51 +35,39 @@ public class Autonomous extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         if(OI.getInstance().getPlan() == 1) {
-            while(OI.getInstance().getLeftQuad() < 1000) {
-                m_chassis.driveWithAuto(0.65, 0.0);
+            while(OI.getInstance().getLeftQuad() < 1000 || OI.getInstance().ultra.getAverageValue()/1.9 < 20) {
+                m_chassis.driveWithAuto(-0.5, 0.0);
             }
+            m_chassis.driveWithAuto(-0.2, 0);
+            Timer.delay(1);
             OI.getInstance().quadL.reset();
             while(OI.getInstance().getLeftQuad() < 500) {
-                m_chassis.driveWithAuto(0.0, 0.5);
+                m_chassis.driveWithAuto(0.0, -0.65);
             }
             m_chassis.driveWithAuto(0, 0);
-            m_camera.track();
-            while(m_camera.x-320>40 || m_camera.x-320<-40 || m_camera.y-240>40 || m_camera.y-240<-40){
-                m_camera.track();
-                m_chassis.driveWithCamera();
-                m_chassis.anglometron();
-            }
-            m_chassis.driveWithAuto(0, 0);
-            m_shooter.buttons(true);
-            Timer.delay(1);
-            for(int i = 0; i < 3; i++){
-                m_shooter.shoot(true);
-                Timer.delay(1);
-            }
-            done = true;
+//            m_camera.track();
+//            while(m_camera.x-320>40 || m_camera.x-320<-40 || m_camera.y-240>40 || m_camera.y-240<-40){
+//                m_camera.track();
+//                m_chassis.driveWithCamera();
+//                m_chassis.anglometron();
+//            }
+//            m_chassis.driveWithAuto(0, 0);
+//            m_shooter.buttons(true);
+//            Timer.delay(1);
+//            for(int i = 0; i < 3; i++){
+//                m_shooter.shoot(true);
+//                Timer.delay(1);
+//            }
+//            done = true;
         }else if(OI.getInstance().getPlan() == 2) {
             while(OI.getInstance().getRightQuad() < 1000) {
-                m_chassis.driveWithAuto(0.65, 0.0);
+                m_chassis.driveWithAuto(-0.65, 0.0);
             }
             OI.getInstance().quadR.reset();
             while(OI.getInstance().getRightQuad() < 500) {
-                m_chassis.driveWithAuto(0.0, -0.5);
+                m_chassis.driveWithAuto(0.0, 0.5);
             }
             m_chassis.driveWithAuto(0, 0);
-            while(m_camera.x-320>40 || m_camera.x-320<-40 || m_camera.y-240>40 || m_camera.y-240<-40){
-                m_camera.track();
-                m_chassis.driveWithCamera();
-                m_chassis.anglometron();
-            }
-            m_chassis.driveWithAuto(0, 0);
-            m_shooter.buttons(true);
-            Timer.delay(1);
-            for(int i = 0; i < 3; i++){
-                m_shooter.shoot(true);
-                Timer.delay(1);
-            }
-            done = true;
-        }else if(OI.getInstance().getPlan() == 3) {
             while(m_camera.x-320>40 || m_camera.x-320<-40 || m_camera.y-240>40 || m_camera.y-240<-40){
                 m_camera.track();
                 m_chassis.driveWithCamera();

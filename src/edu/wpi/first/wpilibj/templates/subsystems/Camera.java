@@ -20,7 +20,7 @@ public class Camera extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
-    public int x = 0;
+    public double x = 0;
     public int y = 0;
     
     private static Camera instance = null;
@@ -37,8 +37,9 @@ public class Camera extends Subsystem {
     }
 
     public void track() {
-        x = (SmartDashboard.getInt("Left") + SmartDashboard.getInt("Left")) / 2;
+        x = (SmartDashboard.getDouble("Left") + SmartDashboard.getDouble("Right")) / 2;
         y = SmartDashboard.getInt("Top");
+        x = x-320;
     }
 
     

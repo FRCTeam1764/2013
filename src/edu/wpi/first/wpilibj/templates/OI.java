@@ -21,6 +21,7 @@ public class OI {
     public Encoder quad;
     public Encoder quadL;
     public Encoder quadR;
+    public AnalogChannel ultra;
     public AnalogChannel pot;
     public DigitalInput limit1;
     public DigitalInput limit2;
@@ -33,37 +34,56 @@ public class OI {
     private JoystickButton j2b3;
     private JoystickButton j2b4;
     private JoystickButton j2b5;
+    public JoystickButton j2b8;
+    public JoystickButton j2b9;
     private JoystickButton j2b11;
     private JoystickButton j2b10;
     
     public OI() {
-        //Test.
-        System.out.println("OI");
-      
+        ultra = new AnalogChannel(1);
+        pot = new AnalogChannel(2);
+        limit1 = new DigitalInput(9);
+        limit2 = new DigitalInput(10);
         stick = new Joystick(JOYSTICK_PORT);
         stick2 = new Joystick(JOYSTICK_PORT_2);
-      
+        quad = new Encoder(13, 11);
+        quadL = new Encoder(3, 1);
+        quadR = new Encoder(7, 5);
+        
         j2b1 = new JoystickButton(stick2, 1);
         j2b2 = new JoystickButton(stick2, 2);
         j2b3 = new JoystickButton(stick2, 3);
         j2b4 = new JoystickButton(stick2, 4);
         j2b5 = new JoystickButton(stick2, 5);
+        j2b8 = new JoystickButton(stick2, 8);
+        j2b9 = new JoystickButton(stick2, 9);
         j2b11 = new JoystickButton(stick2, 11);
         j2b10 = new JoystickButton(stick2, 10);
         
-        quad.start();
+        startQuads();
     }
     
     public static OI getInstance() {
         if(instance == null) {
             instance = new OI();
         }
-        System.out.println("GOTINSTANCE");
         return instance;
+    }
+    
+    private void startQuads() {
+        quad.start();
+        quadL.start();
+        quadR.start();
     }
 
     public int getPlan() {
-        return 1;
+        if (SmartDashboard.getDouble("Slider 1") < 50){
+            return 1;
+        }else if (SmartDashboard.getDouble("Slider 1") > 50) {
+            return 2;
+        }else{
+            return 1;
+        }
     }
 
     public double getEncoder() {
@@ -71,12 +91,10 @@ public class OI {
     }
 
     public double getLeftQuad() {
-        quadL.start();
         return quadL.getDistance();
     }
 
     public double getRightQuad() {
-        quadR.start();
         return quadR.getDistance();
     }
 
