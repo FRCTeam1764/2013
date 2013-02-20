@@ -23,15 +23,16 @@ public class Shooter extends Subsystem {
     public static final int CAM_PORT = 1;
     public static final int LIGHT_PORT = 1;
     
-    private Victor shooter;
-    private Relay cam;
-    private Solenoid light;
+    public Victor shooter;
+    public Relay cam;
+    public Solenoid light;
+    public Solenoid groundLights;
     
+    public boolean go = false;
+    public boolean shoot = false;
     public double speed;
     public double power;
     public double lastPower;
-    public boolean out = false;
-    public boolean in = true;
     
     private static Shooter instance = null;
     
@@ -51,6 +52,7 @@ public class Shooter extends Subsystem {
         shooter = new Victor(SHOOTER_PORT);
         cam = new Relay(CAM_PORT);
         light = new Solenoid(LIGHT_PORT);
+        groundLights = new Solenoid(2);
     }
     
     public void buttons(boolean set) {
@@ -83,22 +85,24 @@ public class Shooter extends Subsystem {
 //        lastPower = power;
     }
     
-    public void shoot(boolean go) {
+    public void shoot() {
+        if(OI.getInstance().getJoystickButton24().get()) {
+            go = true;
+        }else{
+            go = shoot;
+        }
+        
+        groundLights.set(true);
+        
         if(go) {
             while((OI.getInstance().getLimit2() || OI.getInstance().getLimit1() == false) && go) {
-                if(go == false) {
-                    cam.set(Relay.Value.kOff);
-                    return;
-                }
                 cam.set(Relay.Value.kForward);
+                groundLights.set(false);
             }
-            
+            groundLights.set(true);
             while((OI.getInstance().getLimit1() || OI.getInstance().getLimit2() == false) && go) {
-                if(go == false) {
-                    cam.set(Relay.Value.kOff);
-                    return;
-                }
                 cam.set(Relay.Value.kReverse);
+                groundLights.set(false);
             }
         }else{
             cam.set(Relay.Value.kOff);

@@ -39,7 +39,7 @@ public class Camera extends Subsystem {
     public void track() {
         x = (SmartDashboard.getDouble("Left") + SmartDashboard.getDouble("Right")) / 2;
         y = SmartDashboard.getInt("Top");
-        x = x-320;
+        x = x-335;
     }
 
     

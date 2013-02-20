@@ -77,12 +77,14 @@ public class OI {
     }
 
     public int getPlan() {
-        if (SmartDashboard.getDouble("Slider 1") < 50){
+        if (SmartDashboard.getDouble("Slider 1") > 25 && SmartDashboard.getDouble("Slider 1") < 75){
+            return 3;
+        }else if (SmartDashboard.getDouble("Slider 1") < 25) {
             return 1;
-        }else if (SmartDashboard.getDouble("Slider 1") > 50) {
+        }else if (SmartDashboard.getDouble("Slider 1") > 75){
             return 2;
         }else{
-            return 1;
+            return 3;
         }
     }
 

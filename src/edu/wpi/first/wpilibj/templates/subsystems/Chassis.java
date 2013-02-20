@@ -66,6 +66,7 @@ public class Chassis extends Subsystem {
                 anglometron.set(0.0);
             }
             System.out.println(OI.getInstance().getLeftQuad() + " + " + OI.getInstance().getRightQuad());
+            System.out.println(OI.getInstance().ultra.getAverageValue()/1.9);
         } else {
             driveWithCamera();
         }
@@ -75,13 +76,11 @@ public class Chassis extends Subsystem {
         double x = Camera.getInstance().x;
         
         if (x > 200) {
-            System.out.println("Right");
             fl.set(-0.6);
             fr.set(-0.6);
             rl.set(-0.6);
             rr.set(-0.6);
         }else if (x < -200) {
-            System.out.println("Left");
             fl.set(0.6);
             fr.set(0.6);
             rl.set(0.6);
@@ -97,15 +96,15 @@ public class Chassis extends Subsystem {
             rl.set(0.5);
             rr.set(0.);
         }else if (x > 50) {
-            fl.set(-0.45);
-            fr.set(-0.45);
-            rl.set(-0.45);
-            rr.set(-0.45);
+            fl.set(-0.46);
+            fr.set(-0.46);
+            rl.set(-0.46);
+            rr.set(-0.46);
         }else if (x < -50) {
-            fl.set(0.45);
-            fr.set(0.45);
-            rl.set(0.45);
-            rr.set(0.45);
+            fl.set(0.46);
+            fr.set(0.46);
+            rl.set(0.46);
+            rr.set(0.46);
         }else if(x < 25 && x > -25) {
             fl.set(0.0);
             fr.set(0.0);

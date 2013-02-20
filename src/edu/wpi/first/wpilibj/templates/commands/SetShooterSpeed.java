@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.templates.subsystems.Shooter;
  */
 public class SetShooterSpeed extends CommandBase {
     Shooter m_shooter;
+    boolean shoot = false;
     
     public SetShooterSpeed() {
         m_shooter = Shooter.getInstance();
@@ -28,7 +29,7 @@ public class SetShooterSpeed extends CommandBase {
         m_shooter.buttons(OI.getInstance().getJoystickButton23().get());
         m_shooter.normalize();
         m_shooter.setShooterSpeed();
-        m_shooter.shoot(OI.getInstance().getJoystickButton24().get());
+        m_shooter.shoot();
     }
 
     // Make this return true when this Command no longer needs to run execute()
