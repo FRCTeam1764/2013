@@ -56,7 +56,9 @@ public class Shooter extends Subsystem {
     }
     
     public void buttons(boolean set) {
-        light.set(true);
+        if(OI.getInstance().getJoystickButton21().get()){
+            light.set(true);
+        }
         if (OI.getInstance().getJoystickButton22().get()) {
             shooter.set(0.0);
         }else if (OI.getInstance().getJoystickButton23().get()) {

@@ -119,7 +119,30 @@ public class Autonomous extends CommandBase {
             m_shooter.shoot = false;
             time.stop();
         }else if(OI.getInstance().getPlan() == 3) {
-            
+            time.reset();
+            time.start();
+            Timer.delay(0.5);
+            while(OI.getInstance().getLeftQuad() > -600) {
+                m_chassis.driveWithAuto(0.5, 0.0);
+            }
+            m_chassis.driveWithAuto(-0.4, 0);
+            Timer.delay(0.1);
+            m_chassis.driveWithAuto(0, 0);
+            m_shooter.shooter.set(-0.75);
+            while(OI.getInstance().getPot() < 435 && time.get() < 10){
+                System.out.println("Angle");
+                m_chassis.anglometron.set(-1.0);
+            }
+            Timer.delay(2);
+            while(time.get() < 14.9){
+                System.out.println("Shoot");
+                m_shooter.shoot = true;
+                m_shooter.shoot();
+            }
+            System.out.println("Shoot");
+            m_shooter.shooter.set(0.0);
+            m_shooter.shoot = false;
+            time.stop();
         }
     }
 

@@ -67,6 +67,7 @@ public class Chassis extends Subsystem {
             }
             System.out.println(OI.getInstance().getLeftQuad() + " + " + OI.getInstance().getRightQuad());
             System.out.println(OI.getInstance().ultra.getAverageValue()/1.9);
+            System.out.println("Angle" + OI.getInstance().getPot());
         } else {
             driveWithCamera();
         }
