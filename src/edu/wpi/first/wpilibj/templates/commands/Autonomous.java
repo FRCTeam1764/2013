@@ -35,6 +35,7 @@ public class Autonomous extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        System.out.println("Starting Auto");
         Timer time = new Timer(); 
         if(OI.getInstance().getPlan() == 1) {
             time.reset();
@@ -48,32 +49,31 @@ public class Autonomous extends CommandBase {
             m_chassis.driveWithAuto(0, 0);
             OI.getInstance().quadL.reset();
             while(OI.getInstance().getLeftQuad() < 520) {
-                m_chassis.driveWithAuto(0.0, 0.5);
+                m_chassis.driveWithAuto(0.0, 0.65);
             }
             m_shooter.shooter.set(-0.85);
             m_chassis.driveWithAuto(0, 0);
-            Timer.delay(1);
             m_shooter.light.set(true);
             m_camera.track();
-            while((m_camera.x-320>50 || m_camera.x-320<-50) && time.get() < 11){
+            while((m_camera.x-320>50 || m_camera.x-320<-50) && time.get() < 10){
                 m_camera.track();
                 m_chassis.driveWithCamera();
                 m_chassis.anglometron();
-                System.out.println("Camera");
             }
             m_chassis.driveWithAuto(0, 0);
             while(OI.getInstance().getPot() < 550 && time.get() < 12.75){
-                System.out.println("Angle");
                 m_chassis.anglometron.set(-1.0);
             }
-            Timer.delay(0.25);
-            System.out.println(time.get());
-            while(time.get() < 14.9){
-                System.out.println("Shoot");
-                m_shooter.shoot = true;
-                m_shooter.shoot();
+            Timer.delay(0.1);
+            for(int i = 0; i < 3; i++){
+                while(OI.getInstance().getLimit2()) {
+                    m_shooter.cam.set(Relay.Value.kForward);
+                }
+                while(OI.getInstance().getLimit1()){
+                    m_shooter.cam.set(Relay.Value.kReverse);
+                }
+                Timer.delay(0.1);
             }
-            System.out.println("Shoot");
             m_shooter.shooter.set(0.0);
             m_shooter.shoot = false;
             time.stop();
@@ -89,32 +89,27 @@ public class Autonomous extends CommandBase {
             m_chassis.driveWithAuto(0, 0);
             OI.getInstance().quadL.reset();
             while(OI.getInstance().getRightQuad() < 520) {
-                m_chassis.driveWithAuto(0.0, -0.5);
+                m_chassis.driveWithAuto(0.0, -0.65);
             }
             m_shooter.shooter.set(-0.85);
             m_chassis.driveWithAuto(0, 0);
-            Timer.delay(1);
             m_shooter.light.set(true);
             m_camera.track();
-            while((m_camera.x-320>50 || m_camera.x-320<-50) && time.get() < 11){
+            while((m_camera.x-320>50 || m_camera.x-320<-50) && time.get() < 10){
                 m_camera.track();
                 m_chassis.driveWithCamera();
                 m_chassis.anglometron();
-                System.out.println("Camera");
             }
             m_chassis.driveWithAuto(0, 0);
             while(OI.getInstance().getPot() < 550 && time.get() < 12.75){
-                System.out.println("Angle");
                 m_chassis.anglometron.set(-1.0);
             }
-            Timer.delay(0.25);
-            System.out.println(time.get());
             while(time.get() < 14.9){
-                System.out.println("Shoot");
                 m_shooter.shoot = true;
                 m_shooter.shoot();
+                m_shooter.shoot = false;
+                Timer.delay(0.2);
             }
-            System.out.println("Shoot");
             m_shooter.shooter.set(0.0);
             m_shooter.shoot = false;
             time.stop();
@@ -123,23 +118,23 @@ public class Autonomous extends CommandBase {
             time.start();
             Timer.delay(0.5);
             while(OI.getInstance().getLeftQuad() > -600) {
-                m_chassis.driveWithAuto(0.5, 0.0);
+                m_chassis.driveWithAuto(0.65, 0.0);
             }
             m_chassis.driveWithAuto(-0.4, 0);
             Timer.delay(0.1);
             m_chassis.driveWithAuto(0, 0);
             m_shooter.shooter.set(-0.75);
             while(OI.getInstance().getPot() < 435 && time.get() < 10){
-                System.out.println("Angle");
                 m_chassis.anglometron.set(-1.0);
             }
-            Timer.delay(2);
+            Timer.delay(1);
             while(time.get() < 14.9){
-                System.out.println("Shoot");
                 m_shooter.shoot = true;
                 m_shooter.shoot();
+                Timer.delay(0.1);
+                m_shooter.shoot = false;
+                Timer.delay(0.1);
             }
-            System.out.println("Shoot");
             m_shooter.shooter.set(0.0);
             m_shooter.shoot = false;
             time.stop();

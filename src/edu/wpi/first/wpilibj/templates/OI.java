@@ -34,8 +34,8 @@ public class OI {
     private JoystickButton j2b3;
     private JoystickButton j2b4;
     private JoystickButton j2b5;
-    public JoystickButton j2b8;
-    public JoystickButton j2b9;
+    private JoystickButton j2b8;
+    private JoystickButton j2b9;
     private JoystickButton j2b11;
     private JoystickButton j2b10;
     
@@ -138,6 +138,14 @@ public class OI {
 
     public JoystickButton getJoystickButton25() {
         return j2b5; 
+    }
+    
+    public JoystickButton getJoystickButton28() {
+        return j2b8; 
+    }
+    
+    public JoystickButton getJoystickButton29() {
+        return j2b9; 
     }
     
     public JoystickButton getJoystickButton211() {

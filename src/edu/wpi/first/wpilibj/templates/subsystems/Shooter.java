@@ -26,7 +26,6 @@ public class Shooter extends Subsystem {
     public Victor shooter;
     public Relay cam;
     public Solenoid light;
-    public Solenoid groundLights;
     
     public boolean go = false;
     public boolean shoot = false;
@@ -52,40 +51,29 @@ public class Shooter extends Subsystem {
         shooter = new Victor(SHOOTER_PORT);
         cam = new Relay(CAM_PORT);
         light = new Solenoid(LIGHT_PORT);
-        groundLights = new Solenoid(2);
     }
     
     public void buttons(boolean set) {
+        light.set(true);
         if(OI.getInstance().getJoystickButton21().get()){
-            light.set(true);
+            //light.set(true);
         }
         if (OI.getInstance().getJoystickButton22().get()) {
             shooter.set(0.0);
         }else if (OI.getInstance().getJoystickButton23().get()) {
             shooter.set(-0.75);
-        }else if (OI.getInstance().j2b8.get()) {
+        }else if (OI.getInstance().getJoystickButton28().get()) {
             shooter.set(-0.5);
-        }else if (OI.getInstance().j2b9.get()) {
+        }else if (OI.getInstance().getJoystickButton29().get()) {
             shooter.set(-0.85);
         }
+        
+        System.out.println(OI.getInstance().getLimit1());
+        System.out.println(OI.getInstance().getLimit2());
     }
     
-    public void normalize() {
-//        if(Math.abs(speed - OI.getInstance().getEncoder()) > 100 && speed != 0.0){
-//            power += ((speed - OI.getInstance().getEncoder())/(speed*500));
-//        }else if(speed == 0.0){
-//            power = 0;
-//            lastPower = 0;
-//        }else{
-//            power = power;
-//        }
-    }
-    
-    public void setShooterSpeed() {
-//        power = (power + lastPower)/2;
-//        shooter.set(-power);
-//        lastPower = power;
-    }
+    int done = 0;
+    boolean fwd = false;
     
     public void shoot() {
         if(OI.getInstance().getJoystickButton24().get()) {
@@ -94,20 +82,28 @@ public class Shooter extends Subsystem {
             go = shoot;
         }
         
-        groundLights.set(true);
+        
+        
         
         if(go) {
-            while((OI.getInstance().getLimit2() || OI.getInstance().getLimit1() == false) && go) {
+            if(OI.getInstance().getLimit2()) {
                 cam.set(Relay.Value.kForward);
-                groundLights.set(false);
+            }else{
+                cam.set(Relay.Value.kOff);
             }
-            groundLights.set(true);
-            while((OI.getInstance().getLimit1() || OI.getInstance().getLimit2() == false) && go) {
-                cam.set(Relay.Value.kReverse);
-                groundLights.set(false);
-            }
+//            if((OI.getInstance().getLimit2() || OI.getInstance().getLimit1() == false) && go) {
+//                cam.set(Relay.Value.kForward);
+//            }
+//            
+//            if((OI.getInstance().getLimit1() || OI.getInstance().getLimit2() == false) && go) {
+//                cam.set(Relay.Value.kReverse);
+//            }
         }else{
-            cam.set(Relay.Value.kOff);
+            if(OI.getInstance().getLimit1()) {
+                cam.set(Relay.Value.kReverse);
+            }else{
+                cam.set(Relay.Value.kOff);
+            }
         }
     }
     

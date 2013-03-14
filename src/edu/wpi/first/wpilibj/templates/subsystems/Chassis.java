@@ -51,7 +51,7 @@ public class Chassis extends Subsystem {
     public void driveWithJoystick() {
         if (OI.getInstance().getJoystickButton21().get() == false) {
             double y = OI.getInstance().getJoystick().getY();
-            double x = OI.getInstance().getJoystick().getZ() * 0.5;
+            double x = OI.getInstance().getJoystick().getZ();
             
             fl.set(y-x);
             rl.set(y-x);
@@ -113,6 +113,8 @@ public class Chassis extends Subsystem {
             rr.set(0.0);
             anglometron();
         }
+        
+        //TRY EQUATION y = 7E-06x2 + 9E-18x + 0.392
     }
     
     public void anglometron() {
